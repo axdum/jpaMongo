@@ -1,6 +1,7 @@
 package axdum.master1.sir;
 
 import axdum.master1.sir.domain.Address;
+import axdum.master1.sir.domain.Article;
 import axdum.master1.sir.domain.Person;
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
@@ -16,13 +17,17 @@ public class App {
     morphia.map(Person.class).map(Address.class);
     Datastore ds = morphia.createDatastore(mongo, "jpamongo");
 
-    Address address = new Address("123 Some street", "Moulinsart", "1000", "Belgium");
-    Person p = new Person();
-    p.setName("Tintin");
-    p.addAddress(address);
+    Address a1 = new Address("99 rue Herge", "Moulinsart", "1000", "Belgium");
+    ds.save(a1);
+    Person p1 = new Person();
+    p1.setName("Tintin");
+    p1.addAddress(a1);
+    ds.save(p1);
 
-    // Save the POJO
-    ds.save(p);
+    Article art1 = new Article();
+    art1.setName("Tintin et le temple du soleil");
+    art1.addBuyer(p1);
+
     for (Person e : ds.find(Person.class))
       System.err.println(e);
   }

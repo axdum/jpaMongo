@@ -15,6 +15,7 @@ public class Article {
   private ObjectId id;
   private String name;
   private int stars;
+  @Reference
   private List<Person> buyers;
 
   public Article(String name, int stars, List<Person> buyers) {
@@ -25,6 +26,14 @@ public class Article {
 
   public Article() {
     this.buyers = new ArrayList<Person>();
+  }
+
+  public void addBuyer(Person person){
+    this.buyers.add(person);
+  }
+
+  public void removeBuyer(Person person){
+    this.buyers.remove(person);
   }
 
   public ObjectId getId() {
