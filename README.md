@@ -12,4 +12,5 @@ Les types de données stockés dans Redis sont :
 - Hash (clés-valeurs)
 - Set (ensembles)
 - Set trié (ensembles triés)
+
 On peut uniquement faires des requêtes sur les clés.
