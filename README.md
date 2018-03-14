@@ -14,3 +14,10 @@ Les types de données stockés dans Redis sont :
 - Set trié (ensembles triés)
 
 On peut uniquement faires des requêtes sur les clés.
+
+### Installation
+- Télécharger le projet
+- Ouvrir le projet dans un IDE
+- Lancer votre serveur de BDD local Mongo ou Redis
+- MongodDB ou Redis : décommenter/commenter la ligne dans App.java.
+- Lancer App.java
