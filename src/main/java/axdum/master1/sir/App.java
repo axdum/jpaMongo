@@ -8,67 +8,16 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import redis.clients.jedis.Jedis;
 
-/**
- * Hello world!
- */
 public class App {
-  public void main(String[] args) {
-    // Exemple 1
-    //this.populateMongo();
-    /*Jedis jedis = new Jedis("localhost");
-    jedis.set("foo", "bar");
-    String value = jedis.get("foo");
-    System.err.println(value);*/
-
-    // Exemple 2
-    /*Jedis jedis = new Jedis( "localhost" );
-    System. out .println(jedis.get( "counter" ));
-    jedis.incr( "counter" );
-    System. out .println(jedis.get( "counter" ));*/
-
-    // Exemple 3
-    /*String cacheKey = "cachekey";
-    Jedis jedis = new Jedis("localhost");
-    // adding a new key
-    jedis.set(cacheKey, "cached value");
-    // setting the TTL in seconds
-    jedis.expire(cacheKey, 15);
-    // Getting the remaining ttl
-    System.out.println("TTL:" + jedis.ttl(cacheKey));
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    System.out.println("TTL:" + jedis.ttl(cacheKey));
-    // Getting the cache value
-    System.out.println("Cached Value:" + jedis.get(cacheKey));
-    // Wait for the TTL finishs
-    try {
-      Thread.sleep(15000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    // trying to get the expired key
-    System.out.println("Expired Key:" + jedis.get(cacheKey));*/
-
-    // Exemple 4
-    String cacheKey = "languages" ;
-    Jedis jedis = new Jedis( "localhost" );
-    // Adding a set as value
-    jedis.sadd(cacheKey, "Java" );
-    jedis.sadd(cacheKey, "C#" );
-    jedis.sadd(cacheKey, "Python" ); // SADD
-    // Getting all values in the set: SMEMBERS
-    System. out .println( "Languages: " + jedis.smembers(cacheKey));
-    // Adding new values
-    jedis.sadd(cacheKey, "Java" );
-    jedis.sadd(cacheKey, "Ruby" );
-    // Getting the values... it doesn't allow duplicates
-    System. out .println( "Languages: " + jedis.smembers(cacheKey));
+  public static void main(String[] args) {
+    populateMongo();
+    //populateRedis();
   }
 
-  private void populateMongo() {
+  /**
+   * Use MongoDB
+   */
+  private static void populateMongo() {
     Morphia morphia = new Morphia();
     MongoClient mongo = new MongoClient();
     morphia.map(Person.class).map(Address.class);
@@ -128,5 +77,24 @@ public class App {
 
     for (Person e : ds.find(Person.class))
       System.err.println(e);
+  }
+
+  /**
+   * Use Redis
+   */
+  private static void populateRedis() {
+    String cacheKey = "languages";
+    Jedis jedis = new Jedis("localhost");
+    // Adding a set as value
+    jedis.sadd(cacheKey, "Java");
+    jedis.sadd(cacheKey, "C#");
+    jedis.sadd(cacheKey, "Python"); // SADD
+    // Getting all values in the set: SMEMBERS
+    System.out.println("Languages: " + jedis.smembers(cacheKey));
+    // Adding new values
+    jedis.sadd(cacheKey, "Java");
+    jedis.sadd(cacheKey, "Ruby");
+    // Getting the values... it doesn't allow duplicates
+    System.out.println("Languages: " + jedis.smembers(cacheKey));
   }
 }
